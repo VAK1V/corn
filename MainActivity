@@ -1,0 +1,43 @@
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+
+        val nickname: EditText = findViewById(R.id.nickname)
+        val hueta: Button = findViewById(R.id.hueta)
+        val hueta2: Button = findViewById(R.id.hueta2)
+
+        hueta2.setOnClickListener {
+            val intent = Intent(this, Activity::class.java)
+            startActivity(intent)
+        }
+
+        hueta.setOnClickListener {
+            val nickname = nickname.text.toString().trim()
+
+
+            if (nickname == "" )
+                Toast.makeText(this, "Заполните все поля",Toast.LENGTH_SHORT).show()
+            else {
+                val user = User(nickname)
+
+                val db = Helper(this, null)
+                db.addUser(user)
+                Toast.makeText(this, "Пользователь $nickname добавлен",Toast.LENGTH_SHORT).show()
+
+
+
+            }
+        }
+
+
+
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
+    }
+}
